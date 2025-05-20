@@ -34,15 +34,21 @@ namespace Library
         {
             return numOfBook;
         }
-        public void AddBook(Book book)
+        public bool AddBook(Book book)
         {
             books.Add(book);
             numOfBook++; 
+            return true;
         }
-        public void RemoveBook(Book book)
+        public bool RemoveBook(Book book)
         {
-            books.Remove(book);
-            numOfBook--;
+            if(books.Contains(book))
+            {
+                books.Remove(book);
+                numOfBook--;
+                return true;
+            }
+            return false;   
         }
     }
 }

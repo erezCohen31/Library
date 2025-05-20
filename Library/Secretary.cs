@@ -42,15 +42,19 @@ namespace Library
         {
             return users;
         }
-        public void BorrowBook(User user, Book book,int day)
+        public void BorrowBook(User user, Book book, int day)
         {
             if (book.IsAvaiable())
             {
 
-                user.AddBook(book);
-                book.SetDateOfBorrowed();
-                book.SetDateOfReturn(day);
-                book.SetIsAvailable(false);
+                bool isAdd = user.AddBook(book);
+                if (isAdd)
+                {
+
+                    book.SetDateOfBorrowed();
+                    book.SetDateOfReturn(day);
+                    book.SetIsAvailable(false);
+                }
             }
             else
             {
@@ -59,16 +63,21 @@ namespace Library
         }
         public void ReturnBook(Book book, User user)
         {
-            user.RemoveBook(book);
-            book.SetIsAvailable(true);
-            if (book.GetDateOfReturn() < DateTime.Now)
+            bool isRemove = user.RemoveBook(book);
+            if (isRemove)
             {
-                Console.WriteLine("You are late");
+                book.SetIsAvailable(true);
+                if (book.GetDateOfReturn() < DateTime.Now)
+                {
+                    Console.WriteLine("You are late");
+                }
+                else
+                {
+                    Console.WriteLine("You are on time");
+                }
+
             }
-            else
-            {
-                Console.WriteLine("You are on time");
-            }
+
         }
     }
 }
